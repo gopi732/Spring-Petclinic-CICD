@@ -19,10 +19,9 @@ pipeline {
             steps{
                 script{
                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub')]) {
-                   sh 'docker login -u saigopi123456 -p ${dockerhub}'
+                   sh 'docker login -u saigopi123456 -p ${dockerhub} && sh 'docker push $DOCKER_HUB_REPO:$BUILD_NUMBER''
 
 }
-                   sh 'docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
                 }
             }
         }
