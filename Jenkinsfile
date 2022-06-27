@@ -2,6 +2,7 @@ pipeline {
     agent any
     environment {
         DOCKER_HUB_REPO = "saigopi123456/spring-petclinic"
+        CONTAINER_NAME = "spring-petclinic"
         http_proxy = 'http://127.0.0.1:3128/'
         https_proxy = 'http://127.0.0.1:3128/'
         ftp_proxy = 'http://127.0.0.1:3128/'
@@ -12,6 +13,20 @@ pipeline {
             steps{
                 script{
                     sh 'docker build -t $DOCKER_HUB_REPO:$BUILD_NUMBER .'
+                }
+            }
+        }
+        stage ('create container'){
+            steps {
+                script{
+                    sh 'docker run -d --name $CONTAINER_NAME$BUILD_NUMBER -p $BUILD_NUMBER:8080 --restart unless-stopped $DOCKER_HUB_REPO:$BUILD_NUMBER && docker ps'
+                }
+            }
+        }
+        stage ('Container Testing '){
+            steps {
+                script{
+                    sh 'wget localhost:$BUILD_NUMBER'
                 }
             }
         }
