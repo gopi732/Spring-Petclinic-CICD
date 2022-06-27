@@ -21,7 +21,7 @@ pipeline {
                    sh 'docker login -u saigopi123456 -p ${dockerhub}'
 
 }
-                   sh 'docker push saigopi123456/spring-petclinic::$BUILD_NUMBER'
+                   sh 'docker push saigopi123456/spring-petclinic:$BUILD_NUMBER'
                 }
             }
         }
