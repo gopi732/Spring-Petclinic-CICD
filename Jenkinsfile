@@ -47,5 +47,12 @@ pipeline {
                 }
             }
         }
+        stage ('Deleting Unused Docker Images'){
+            steps{
+                script{
+                    sh 'docker rmi -f $(docker images -a -q) || true'
+                }
+            }
+        }
     }
 }
