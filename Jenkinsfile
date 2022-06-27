@@ -16,6 +16,13 @@ pipeline {
                 }
             }
         }
+        stage ('Stop & Delete Previous Containers'){
+            steps{
+                script{
+                    sh 'docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true'   
+                }       
+            }
+        }
         stage ('create container'){
             steps {
                 script{
