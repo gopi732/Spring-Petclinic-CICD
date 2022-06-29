@@ -19,14 +19,14 @@ pipeline {
         stage ('create container'){
             steps {
                 script{
-                    sh 'docker run -d --name $CONTAINER_NAME$BUILD_NUMBER -p $BUILD_NUMBER:8080 --restart unless-stopped $DOCKER_HUB_REPO:$BUILD_NUMBER && docker ps'
+                    sh 'docker run -d --name $CONTAINER_NAME$BUILD_NUMBER -p 800$BUILD_NUMBER:8080 --restart unless-stopped $DOCKER_HUB_REPO:$BUILD_NUMBER && docker ps'
                 }
             }
         }
         stage ('Container Testing '){
             steps {
                 script{
-                    sh 'wget localhost:$BUILD_NUMBER'
+                    sh 'wget localhost:800$BUILD_NUMBER'
                 }
             }
         }
