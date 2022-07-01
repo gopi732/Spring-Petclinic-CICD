@@ -9,6 +9,13 @@ pipeline {
         socks_proxy = 'socks://127.0.0.1:3128/'
     }
     stages{
+        stage('clean up'){
+            steps{
+                script{
+                    sh 'docker stop $(docker ps -a -q) || true && docker rm $(docker ps -a -q) || true && docker rmi -f $(docker images -a -q) || true'
+                }    
+            }
+        }
         stage('Build docker image'){
             steps{
                 script{
@@ -37,13 +44,6 @@ pipeline {
                    sh 'docker login -u saigopi123456 -p ${dockerhub} && docker push $DOCKER_HUB_REPO:$BUILD_NUMBER'
 
 }
-                }
-            }
-        }
-        stage ('Deleting Unused Docker Images'){
-            steps{
-                script{
-                    sh 'docker rmi -f $(docker images -a -q) || true'
                 }
             }
         }
